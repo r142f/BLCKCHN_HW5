@@ -2,7 +2,6 @@
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "hardhat/console.sol";
 
 contract VotingToken is ERC20 {
     // type for proposal
@@ -219,8 +218,10 @@ contract VotingToken is ERC20 {
                 uint sendersVote = votes[proposalHash][from];
                 if (sendersVote == 1) {
                     proposal.forVotes -= amount;
+                    _checkFinalization(proposalHash);
                 } else if (sendersVote == 2) {
                     proposal.againstVotes -= amount;
+                    _checkFinalization(proposalHash);
                 }
             }
         } else {
